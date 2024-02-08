@@ -1,45 +1,40 @@
-import { Anchor } from 'antd';
+import { Anchor, Radio, RadioChangeEvent } from 'antd';
 import React, { useCallback, useEffect } from 'react';
-import store from '../utils/store';
+import { itemsStore } from '../utils/store';
 import getItems from '../utils/getItems';
 import { Item } from '../utils/interfaces';
 import { observer } from 'mobx-react-lite';
 
-const AnchorItems = [
-	{ key: 0, href: `#men's clothing`, title: `Men's Clothing` },
-	{ key: 1, href: `#women's clothing`, title: `Women's Clothing` },
-	{ key: 2, href: '#jewelery', title: 'Jewelery' },
-	{ key: 3, href: '#electronics', title: 'Electronics' },
-];
-
 const CategoriesNavigation: React.FC = observer(() => {
-	const { setItems, setCurrentCategory } = store;
+	const { setItems, setCurrentCategory, currentCategory } = itemsStore;
 
 	useEffect(() => {
 		getItems().then((data: Item[]) => {
 			setItems(data);
-
 			const categoryFromStorage = localStorage.getItem('category') || '';
 			setCurrentCategory(categoryFromStorage);
 		});
-	}, [setItems]);
+	}, [setItems, setCurrentCategory]);
 
 	const changeCategory = useCallback(
-		(name: string) => {
-			name && setCurrentCategory(name);
-			return name;
+		(event: RadioChangeEvent) => {
+			const { value } = event.target;
+			value && setCurrentCategory(value);
 		},
 		[setCurrentCategory]
 	);
 
 	return (
-		<Anchor
-			direction='horizontal'
-			items={AnchorItems}
-			// showInkInFixed
-			affix
+		<Radio.Group
+			value={currentCategory}
 			onChange={changeCategory}
-		></Anchor>
+			buttonStyle='solid'
+		>
+			<Radio.Button value={`men's clothing`}>Men's Clothing</Radio.Button>
+			<Radio.Button value={`women's clothing`}>Women's Clothing</Radio.Button>
+			<Radio.Button value='jewelery'>Jewelery</Radio.Button>
+			<Radio.Button value='electronics'>Electronics</Radio.Button>
+		</Radio.Group>
 	);
 });
 
