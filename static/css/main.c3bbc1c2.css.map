@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.c3bbc1c2.css","mappings":"AAAA,KACC,iBACD,CAEA,MACC,YAAa,CACb,qBAAsB,CACtB,UACD","sources":["index.css"],"sourcesContent":["body {\n\tpadding: 1rem 2rem;\n}\n\n#root {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 1.5rem;\n}\n"],"names":[],"sourceRoot":""}
