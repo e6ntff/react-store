@@ -1,19 +1,19 @@
 import { Button } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import store from '../utils/store';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from '../utils/paths';
+import { cartStore } from '../utils/store';
 
 const OrderButton: React.FC = observer(() => {
-	const { setOrder } = store;
+	const { setOrder } = cartStore;
 
 	const navigate = useNavigate();
 
-	const makeOrder = () => {
+	const makeOrder = useCallback(() => {
 		setOrder();
 		navigate(paths.accepted);
-	};
+	}, [setOrder, navigate]);
 
 	return (
 		<Button

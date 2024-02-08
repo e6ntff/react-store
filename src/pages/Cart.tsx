@@ -1,12 +1,12 @@
-import { Descriptions, Empty, Image, List } from 'antd';
+import { Empty, Image, List } from 'antd';
 import Item from 'antd/es/list/Item';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import store from '../utils/store';
 import { ItemInCart } from '../utils/interfaces';
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import CatalogButton from '../components/CatalogButton';
 import OrderButton from '../components/OrderButton';
+import { cartStore } from '../utils/store';
 
 const Cart: React.FC = observer(() => {
 	const {
@@ -14,7 +14,7 @@ const Cart: React.FC = observer(() => {
 		getItemInCartQuantity,
 		changeItemInCartQuantity,
 		removeItemFromCart,
-	} = store;
+	} = cartStore;
 
 	return (
 		<>

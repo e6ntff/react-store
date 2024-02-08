@@ -1,14 +1,17 @@
 import Search from 'antd/es/input/Search';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import store from '../utils/store';
+import React, { useCallback } from 'react';
+import { itemsStore } from '../utils/store';
 
 const SearchBar: React.FC = observer(() => {
-	const { filterItemsByName } = store;
-	const search = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.target;
-		filterItemsByName(value);
-	};
+	const { filterItemsByName } = itemsStore;
+	const search = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			const { value } = event.target;
+			filterItemsByName(value);
+		},
+		[filterItemsByName]
+	);
 
 	return (
 		<Search
