@@ -14,3 +14,8 @@ export interface ItemInCart {
 	item: Item;
 	quantity: number;
 }
+
+export interface Category {
+	name: string;
+	title: string;
+}

@@ -1,11 +1,12 @@
 import { makeAutoObservable } from 'mobx';
-import { Item, ItemInCart } from './interfaces';
+import { Category, Item, ItemInCart } from './interfaces';
+import categories from './categories';
 
 class ItemsStore {
 	items: Item[] = [];
 	currentItems: Item[] = [];
 	currentItem: Item = this.items[0];
-	currentCategory: string = '';
+	currentCategory: Category = categories[0];
 
 	setItems = (items: Item[]) => {
 		this.items = items;
@@ -27,14 +28,17 @@ class ItemsStore {
 		}
 	};
 
-	setCurrentCategory = (category: string) => {
-		this.currentCategory = category;
-		localStorage.setItem('category', category);
-		this.setCurrentItemsByCategory(category);
+	setCurrentCategory = (name: string) => {
+		this.currentCategory =
+			categories.find((el: Category) => el.name === name) || categories[0];
+		localStorage.setItem('category', name);
+		this.setCurrentItemsByCategory(this.currentCategory);
 	};
 
-	setCurrentItemsByCategory = (name: string) => {
-		const currentItems = this.items.filter((el: Item) => el.category === name);
+	setCurrentItemsByCategory = (category: Category) => {
+		const currentItems = this.items.filter(
+			(el: Item) => el.category === category.name
+		);
 		this.currentItems = currentItems;
 	};
 

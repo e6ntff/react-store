@@ -2,8 +2,9 @@ import { Radio, RadioChangeEvent } from 'antd';
 import React, { useCallback, useEffect } from 'react';
 import { itemsStore } from '../utils/store';
 import getItems from '../utils/getItems';
-import { Item } from '../utils/interfaces';
+import { Category, Item } from '../utils/interfaces';
 import { observer } from 'mobx-react-lite';
+import categories from '../utils/categories';
 
 const CategoriesNavigation: React.FC = observer(() => {
 	const { setItems, setCurrentCategory, currentCategory } = itemsStore;
@@ -30,10 +31,14 @@ const CategoriesNavigation: React.FC = observer(() => {
 			onChange={changeCategory}
 			buttonStyle='solid'
 		>
-			<Radio.Button value={`men's clothing`}>Men's Clothing</Radio.Button>
-			<Radio.Button value={`women's clothing`}>Women's Clothing</Radio.Button>
-			<Radio.Button value='jewelery'>Jewelery</Radio.Button>
-			<Radio.Button value='electronics'>Electronics</Radio.Button>
+			{categories.map((el: Category) => (
+				<Radio.Button
+					key={el.name}
+					value={el.name}
+				>
+					{el.title}
+				</Radio.Button>
+			))}
 		</Radio.Group>
 	);
 });
