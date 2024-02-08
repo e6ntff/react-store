@@ -1,19 +1,19 @@
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Button, Popover } from 'antd';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from '../utils/paths';
 import { observer } from 'mobx-react-lite';
-import store from '../utils/store';
+import { cartStore } from '../utils/store';
 
 const CartButton: React.FC = observer(() => {
-	const { cart, getItemInCartQuantity } = store;
+	const { cart, getItemInCartQuantity } = cartStore;
 
 	const navigate = useNavigate();
 
-	const redirectToCart = () => {
+	const redirectToCart = useCallback(() => {
 		navigate(paths.cart);
-	};
+	}, [navigate]);
 
 	return (
 		<Popover
