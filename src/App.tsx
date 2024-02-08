@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import { observer } from 'mobx-react-lite';
-import store from './utils/store';
+import { cartStore } from './utils/store';
 
 const App: React.FC = observer(() => {
-	const { setCart } = store;
+	const { setCart } = cartStore;
 
 	useEffect(() => {
 		const cartFromStorage = localStorage.getItem('cart');

@@ -1,16 +1,30 @@
-import { makeAutoObservable, set } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { Item, ItemInCart } from './interfaces';
 
-class Store {
+class ItemsStore {
 	items: Item[] = [];
-	cart: ItemInCart[] = [];
-	currentItem: Item | undefined;
 	currentItems: Item[] = [];
+	currentItem: Item = this.items[0];
 	currentCategory: string = '';
-	order: ItemInCart[] = [];
 
 	setItems = (items: Item[]) => {
 		this.items = items;
+	};
+
+	setCurrentItem = (id: number) => {
+		this.currentItem =
+			this.items.find((el: Item) => el.id === id) || this.items[0];
+	};
+
+	filterItemsByName = (name: string) => {
+		if (name) {
+			const filteredItems = this.items.filter((el: Item) =>
+				el.title.toLowerCase().includes(name.toLowerCase())
+			);
+			this.currentItems = filteredItems;
+		} else {
+			this.setCurrentItemsByCategory(this.currentCategory);
+		}
 	};
 
 	setCurrentCategory = (category: string) => {
@@ -20,14 +34,27 @@ class Store {
 	};
 
 	setCurrentItemsByCategory = (name: string) => {
-		const currentItems = this.items.filter(
-			(el: Item) => el.category === name.slice(1)
-		);
+		const currentItems = this.items.filter((el: Item) => el.category === name);
 		this.currentItems = currentItems;
 	};
 
+	constructor() {
+		makeAutoObservable(this);
+	}
+}
+
+class CartStore {
+	ItemsStore: ItemsStore;
+	cart: ItemInCart[] = [];
+	order: ItemInCart[] = [];
+
+	setCart = (cart: ItemInCart[]) => {
+		this.cart = cart;
+		localStorage.setItem('cart', JSON.stringify(this.cart));
+	};
+
 	addItemToCart = (id: number) => {
-		const itemToAdd = this.items.find((el: Item) => el.id === id);
+		const itemToAdd = this.ItemsStore.items.find((el: Item) => el.id === id);
 
 		if (itemToAdd) {
 			this.setCart([{ item: itemToAdd, quantity: 1 }, ...this.cart]);
@@ -40,11 +67,6 @@ class Store {
 
 	clearCart = () => {
 		this.setCart([]);
-	};
-
-	setCart = (cart: ItemInCart[]) => {
-		this.cart = cart;
-		localStorage.setItem('cart', JSON.stringify(this.cart));
 	};
 
 	changeItemInCartQuantity = (id: number, value: number) => {
@@ -73,31 +95,17 @@ class Store {
 		}
 	};
 
-	setCurrentItem = (id: number) => {
-		this.currentItem = this.items.find((el: Item) => el.id === id);
-	};
-
-	filterItemsByName = (name: string) => {
-		if (name) {
-			const filteredItems = this.items.filter((el: Item) =>
-				el.title.toLowerCase().includes(name.toLowerCase())
-			);
-			this.currentItems = filteredItems;
-		} else {
-			this.setCurrentItemsByCategory(this.currentCategory);
-		}
-	};
-
 	setOrder = () => {
 		this.order = this.cart;
 		this.setCart([]);
 	};
 
-	constructor() {
+	constructor(itemsStore: ItemsStore) {
+		this.ItemsStore = itemsStore;
 		makeAutoObservable(this);
 	}
 }
 
-const store = new Store();
+export const itemsStore = new ItemsStore();
 
-export default store;
+export const cartStore = new CartStore(itemsStore);
