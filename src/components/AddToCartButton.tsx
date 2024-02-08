@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
 import store from '../utils/store';
-import { Item, ItemInCart } from '../utils/interfaces';
+import { ItemInCart } from '../utils/interfaces';
 
 interface Props {
 	id: number;
@@ -14,7 +14,7 @@ const AddToCartButton: React.FC<Props> = observer(({ id }) => {
 
 	const isItemInCart = useMemo(
 		() => cart.some((el: ItemInCart) => el.item.id === id),
-		[cart]
+		[cart, id]
 	);
 
 	const toggleItemInCart = () => {

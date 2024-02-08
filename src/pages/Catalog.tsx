@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import CardsList from '../components/CardsList';
 import CategoriesNavigation from '../components/CategoriesNavigation';
 import SearchBar from '../components/SearchBar';
