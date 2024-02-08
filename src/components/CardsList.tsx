@@ -42,7 +42,7 @@ const CardsList: React.FC = observer(() => {
 
 	return (
 		<StyledList>
-			{currentItems && currentItems.length > 0 ? (
+			{currentItems.length ? (
 				currentItems.map((item: Item) => (
 					<Card
 						key={item.id}
