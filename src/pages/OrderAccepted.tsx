@@ -1,4 +1,4 @@
-import { Button, Image, List } from 'antd';
+import { Button, Image, List, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ItemInCart } from '../utils/interfaces';
@@ -23,16 +23,15 @@ const OrderAccepted: React.FC = observer(() => {
 				order.map((item: ItemInCart) => (
 					<Item
 						key={item.item.id}
-						actions={[<span>{item.quantity}</span>]}
+						actions={[<Title level={3}>{item.quantity} piece</Title>]}
 						extra={
 							<Image
 								style={{ blockSize: '10rem' }}
 								src={item.item.image}
 							/>
 						}
-						style={{ fontWeight: 700 }}
 					>
-						{item.item.title}
+						<Title level={2}>{item.item.title}</Title>
 					</Item>
 				))
 			) : (

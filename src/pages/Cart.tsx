@@ -1,4 +1,4 @@
-import { Empty, Image, List } from 'antd';
+import { Empty, Image, List, Typography } from 'antd';
 import Item from 'antd/es/list/Item';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -7,6 +7,7 @@ import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import CatalogButton from '../components/CatalogButton';
 import OrderButton from '../components/OrderButton';
 import { cartStore } from '../utils/store';
+import Title from 'antd/es/typography/Title';
 
 const Cart: React.FC = observer(() => {
 	const {
@@ -31,7 +32,7 @@ const Cart: React.FC = observer(() => {
 								<MinusOutlined
 									onClick={() => changeItemInCartQuantity(item.id, -1)}
 								/>,
-								<span>{getItemInCartQuantity(item.id)}</span>,
+								<Title level={3}>{getItemInCartQuantity(item.id)}</Title>,
 								<PlusOutlined
 									onClick={() => changeItemInCartQuantity(item.id, 1)}
 								/>,
@@ -43,9 +44,8 @@ const Cart: React.FC = observer(() => {
 									src={item.image}
 								/>
 							}
-							style={{ fontWeight: 700 }}
 						>
-							{item.title}
+							<Title level={3}>{item.title}</Title>
 						</Item>
 					))
 				) : (

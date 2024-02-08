@@ -1,15 +1,26 @@
 import React, { useCallback } from 'react';
 import { itemsStore } from '../utils/store';
 import { Item } from '../utils/interfaces';
-import { Card, CardProps, Empty, Flex, Image, Popover, Rate, Tag } from 'antd';
+import {
+	Card,
+	CardProps,
+	Empty,
+	Flex,
+	Image,
+	Popover,
+	Rate,
+	Tag,
+	Typography,
+} from 'antd';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import paths from '../utils/paths';
 import AddToCartButton from './AddToCartButton';
+import Title from 'antd/es/typography/Title';
 
 const CardStyles: CardProps['styles'] = {
-	header: { inlineSize: '20rem', paddingBlock: '0', paddingInline: '0.5rem' },
-	body: { padding: '0.5rem', inlineSize: '15rem' },
+	header: { inlineSize: '20rem', paddingBlock: '0', paddingInline: '1rem' },
+	body: { padding: '1rem', inlineSize: '20rem', textAlign: 'right' },
 	extra: {},
 	title: {},
 	actions: {},
@@ -77,7 +88,9 @@ const CardsList: React.FC = observer(() => {
 							/>,
 							<Tag bordered>{item.category}</Tag>,
 						]}
-					></Card>
+					>
+						<Title level={3}>${item.price}</Title>
+					</Card>
 				))
 			) : (
 				<Empty description='No items matched' />
