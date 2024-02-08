@@ -1,4 +1,4 @@
-import { Button, Image, List, Typography } from 'antd';
+import { Button, Image, List } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ItemInCart } from '../utils/interfaces';

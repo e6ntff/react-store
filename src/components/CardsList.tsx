@@ -1,17 +1,7 @@
 import React, { useCallback } from 'react';
 import { itemsStore } from '../utils/store';
 import { Item } from '../utils/interfaces';
-import {
-	Card,
-	CardProps,
-	Empty,
-	Flex,
-	Image,
-	Popover,
-	Rate,
-	Tag,
-	Typography,
-} from 'antd';
+import { Card, CardProps, Empty, Flex, Image, Popover, Rate, Tag } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import paths from '../utils/paths';

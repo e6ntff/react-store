@@ -1,4 +1,4 @@
-import { Empty, Image, List, Typography } from 'antd';
+import { Empty, Image, List } from 'antd';
 import Item from 'antd/es/list/Item';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
