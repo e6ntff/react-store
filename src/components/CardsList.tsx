@@ -1,35 +1,27 @@
 import React, { useCallback } from 'react';
-import store from '../utils/store';
-import styled from 'styled-components';
+import { itemsStore } from '../utils/store';
 import { Item } from '../utils/interfaces';
-import { Card, CardProps, Empty, Image, Popover, Rate } from 'antd';
+import { Card, CardProps, Empty, Flex, Image, Popover, Rate, Tag } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import paths from '../utils/paths';
 import AddToCartButton from './AddToCartButton';
 
-const StyledList = styled.li`
-	display: flex;
-	justify-content: space-between;
-	gap: 1.5rem;
-	flex-wrap: wrap;
-`;
-
 const CardStyles: CardProps['styles'] = {
-	header: { inlineSize: '15rem', paddingBlock: '0', paddingInline: '0.5rem' },
+	header: { inlineSize: '20rem', paddingBlock: '0', paddingInline: '0.5rem' },
 	body: { padding: '0.5rem', inlineSize: '15rem' },
 	extra: {},
 	title: {},
 	actions: {},
 	cover: {
-		inlineSize: '15rem',
-		blockSize: '15rem',
+		inlineSize: '20rem',
+		blockSize: '20rem',
 		overflow: 'hidden',
 	},
 };
 
 const CardsList: React.FC = observer(() => {
-	const { currentItems, setCurrentItem } = store;
+	const { currentItems, setCurrentItem } = itemsStore;
 	const navigate = useNavigate();
 
 	const updateItem = useCallback(
@@ -41,25 +33,31 @@ const CardsList: React.FC = observer(() => {
 	);
 
 	return (
-		<StyledList>
+		<Flex
+			wrap='wrap'
+			justify='space-around'
+			gap='1.5rem'
+		>
 			{currentItems.length ? (
 				currentItems.map((item: Item) => (
 					<Card
 						key={item.id}
-						title={item.title}
-						cover={
+						title={
 							<Popover
 								key={item.id}
 								title={item.title}
 								content={item.description}
-								style={{ maxInlineSize: '2rem' }}
+								style={{ inlineSize: '2rem' }}
 							>
-								<Image
-									onClick={() => updateItem(item.id)}
-									src={item.image}
-									alt={item.title}
-								/>
+								{item.title}
 							</Popover>
+						}
+						cover={
+							<Image
+								onClick={() => updateItem(item.id)}
+								src={item.image}
+								alt={item.title}
+							/>
 						}
 						styles={CardStyles}
 						hoverable
@@ -72,19 +70,19 @@ const CardsList: React.FC = observer(() => {
 						]}
 						actions={[
 							<Rate
-								key={`rate-${item.id}`}
 								disabled
 								value={item.rating.rate}
 								allowClear
 								allowHalf
 							/>,
+							<Tag bordered>{item.category}</Tag>,
 						]}
 					></Card>
 				))
 			) : (
 				<Empty description='No items matched' />
 			)}
-		</StyledList>
+		</Flex>
 	);
 });
 
