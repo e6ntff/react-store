@@ -1,4 +1,4 @@
-import { Anchor, Radio, RadioChangeEvent } from 'antd';
+import { Radio, RadioChangeEvent } from 'antd';
 import React, { useCallback, useEffect } from 'react';
 import { itemsStore } from '../utils/store';
 import getItems from '../utils/getItems';
