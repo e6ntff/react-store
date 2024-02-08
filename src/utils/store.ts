@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, set } from 'mobx';
 import { Item, ItemInCart } from './interfaces';
 
 class Store {
@@ -7,6 +7,7 @@ class Store {
 	currentItem: Item | undefined;
 	currentItems: Item[] = [];
 	currentCategory: string = '';
+	order: ItemInCart[] = [];
 
 	setItems = (items: Item[]) => {
 		this.items = items;
@@ -29,29 +30,31 @@ class Store {
 		const itemToAdd = this.items.find((el: Item) => el.id === id);
 
 		if (itemToAdd) {
-			this.cart = [{ item: itemToAdd, quantity: 1 }, ...this.cart];
-			localStorage.setItem('cart', JSON.stringify(this.cart));
+			this.setCart([{ item: itemToAdd, quantity: 1 }, ...this.cart]);
 		}
 	};
 
 	removeItemFromCart = (id: number) => {
-		this.cart = this.cart.filter((el: ItemInCart) => el.item.id !== id);
-		localStorage.setItem('cart', JSON.stringify(this.cart));
+		this.setCart(this.cart.filter((el: ItemInCart) => el.item.id !== id));
 	};
 
 	clearCart = () => {
-		this.cart = [];
+		this.setCart([]);
 	};
 
 	setCart = (cart: ItemInCart[]) => {
 		this.cart = cart;
+		localStorage.setItem('cart', JSON.stringify(this.cart));
 	};
 
 	changeItemInCartQuantity = (id: number, value: number) => {
 		this.setCart(
-			this.cart.map((el: ItemInCart) =>
-				el.item.id === id ? { ...el, quantity: el.quantity + value } : el
-			)
+			this.cart.map((el: ItemInCart) => {
+				if (el.item.id === id && el.quantity + value !== 0) {
+					return { ...el, quantity: el.quantity + value };
+				}
+				return el;
+			})
 		);
 	};
 
@@ -83,6 +86,11 @@ class Store {
 		} else {
 			this.setCurrentItemsByCategory(this.currentCategory);
 		}
+	};
+
+	setOrder = () => {
+		this.order = this.cart;
+		this.setCart([]);
 	};
 
 	constructor() {
