@@ -7,13 +7,9 @@ import paths from '../utils/paths';
 const CatalogButton: React.FC = () => {
 	const navigate = useNavigate();
 
-	const redirectToCatalog = () => {
-		navigate(paths.catalog);
-	};
-
 	return (
 		<Button
-			onClick={redirectToCatalog}
+			onClick={() => navigate(paths.catalog)}
 			icon={<RollbackOutlined style={{ scale: '1.25' }} />}
 			size='large'
 		></Button>
