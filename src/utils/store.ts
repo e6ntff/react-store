@@ -5,16 +5,25 @@ import categories from './categories';
 class ItemsStore {
 	items: Item[] = [];
 	currentItems: Item[] = [];
-	currentItem: Item = this.items[0];
+	currentItemId: number = 0;
 	currentCategory: Category = categories[0];
+	isItemsLoaded: boolean = false;
+	isItemLoaded: boolean = false;
+
+	setIsItemsLoaded = (value: boolean) => {
+		this.isItemsLoaded = value;
+	};
+
+	setIsItemLoaded = (value: boolean) => {
+		this.isItemLoaded = value;
+	};
 
 	setItems = (items: Item[]) => {
 		this.items = items;
 	};
 
-	setCurrentItem = (id: number) => {
-		this.currentItem =
-			this.items.find((el: Item) => el.id === id) || this.items[0];
+	setCurrentItemId = (id: number) => {
+		this.currentItemId = id;
 	};
 
 	filterItemsByName = (name: string) => {
@@ -80,21 +89,6 @@ class CartStore {
 				return el;
 			})
 		);
-	};
-
-	getItemInCartQuantity = (id?: number) => {
-		if (id) {
-			return this.cart.reduce(
-				(acc: number, item: ItemInCart) =>
-					acc + (item.item.id === id ? item.quantity : 0),
-				0
-			);
-		} else {
-			return this.cart.reduce(
-				(acc: number, item: ItemInCart) => acc + item.quantity,
-				0
-			);
-		}
 	};
 
 	setOrder = () => {
