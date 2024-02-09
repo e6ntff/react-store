@@ -1,21 +1,12 @@
 import { Radio, RadioChangeEvent } from 'antd';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { itemsStore } from '../utils/store';
-import getItems from '../utils/getItems';
-import { Category, Item } from '../utils/interfaces';
+import { Category } from '../utils/interfaces';
 import { observer } from 'mobx-react-lite';
 import categories from '../utils/categories';
 
 const CategoriesNavigation: React.FC = observer(() => {
-	const { setItems, setCurrentCategory, currentCategory } = itemsStore;
-
-	useEffect(() => {
-		getItems().then((data: Item[]) => {
-			setItems(data);
-			const categoryFromStorage = localStorage.getItem('category') || '';
-			setCurrentCategory(categoryFromStorage);
-		});
-	}, [setItems, setCurrentCategory]);
+	const { setCurrentCategory, currentCategory } = itemsStore;
 
 	const changeCategory = useCallback(
 		(event: RadioChangeEvent) => {
