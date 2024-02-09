@@ -51,10 +51,12 @@ class CartStore {
 	ItemsStore: ItemsStore;
 	cart: ItemInCart[] = [];
 	order: ItemInCart[] = [];
+	total: number = 0;
 
 	setCart = (cart: ItemInCart[]) => {
 		this.cart = cart;
 		localStorage.setItem('cart', JSON.stringify(this.cart));
+		this.countTotal();
 	};
 
 	addItemToCart = (id: number) => {
@@ -67,10 +69,6 @@ class CartStore {
 
 	removeItemFromCart = (id: number) => {
 		this.setCart(this.cart.filter((el: ItemInCart) => el.item.id !== id));
-	};
-
-	clearCart = () => {
-		this.setCart([]);
 	};
 
 	changeItemInCartQuantity = (id: number, value: number) => {
@@ -101,7 +99,20 @@ class CartStore {
 
 	setOrder = () => {
 		this.order = this.cart;
+		const total = this.total;
 		this.setCart([]);
+		this.total = total;
+	};
+
+	countTotal = () => {
+		this.total =
+			Math.floor(
+				this.cart.reduce(
+					(acc: number, item: ItemInCart) =>
+						acc + item.item.price * item.quantity,
+					0
+				) * 100
+			) / 100;
 	};
 
 	constructor(itemsStore: ItemsStore) {

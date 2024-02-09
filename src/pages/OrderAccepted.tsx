@@ -9,7 +9,7 @@ import paths from '../utils/paths';
 import { cartStore } from '../utils/store';
 
 const OrderAccepted: React.FC = observer(() => {
-	const { order } = cartStore;
+	const { order, total } = cartStore;
 
 	const navigate = useNavigate();
 
@@ -23,7 +23,11 @@ const OrderAccepted: React.FC = observer(() => {
 				order.map((item: ItemInCart) => (
 					<Item
 						key={item.item.id}
-						actions={[<Title level={3}>{item.quantity} piece</Title>]}
+						actions={[
+							<Title level={3}>
+								{item.quantity} pcs / ${item.item.price * item.quantity}
+							</Title>,
+						]}
 						extra={
 							<Image
 								style={{ blockSize: '10rem' }}
@@ -37,6 +41,7 @@ const OrderAccepted: React.FC = observer(() => {
 			) : (
 				<></>
 			)}
+			<Title level={2}>Total: ${total}</Title>
 			<Button
 				type='primary'
 				onClick={() => navigate(paths.catalog)}
