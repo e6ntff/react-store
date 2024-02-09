@@ -1,4 +1,4 @@
-import { Empty, Image, List } from 'antd';
+import { Empty, Flex, Image, List, Typography } from 'antd';
 import Item from 'antd/es/list/Item';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -10,13 +10,8 @@ import { cartStore } from '../utils/store';
 import Title from 'antd/es/typography/Title';
 
 const Cart: React.FC = observer(() => {
-	const {
-		cart,
-		total,
-		getItemInCartQuantity,
-		changeItemInCartQuantity,
-		removeItemFromCart,
-	} = cartStore;
+	const { cart, total, changeItemInCartQuantity, removeItemFromCart } =
+		cartStore;
 
 	return (
 		<>
@@ -30,13 +25,23 @@ const Cart: React.FC = observer(() => {
 						<Item
 							key={item.item.id}
 							actions={[
-								<MinusOutlined
-									onClick={() => changeItemInCartQuantity(item.item.id, -1)}
-								/>,
-								<Title level={3}>{getItemInCartQuantity(item.item.id)}</Title>,
-								<PlusOutlined
-									onClick={() => changeItemInCartQuantity(item.item.id, 1)}
-								/>,
+								<Flex
+									gap={16}
+									align='center'
+								>
+									<MinusOutlined
+										onClick={() => changeItemInCartQuantity(item.item.id, -1)}
+									/>
+									<Typography.Text
+										strong
+										style={{ fontSize: '1.5rem' }}
+									>
+										{item.quantity}
+									</Typography.Text>
+									<PlusOutlined
+										onClick={() => changeItemInCartQuantity(item.item.id, 1)}
+									/>
+								</Flex>,
 								<DeleteOutlined
 									onClick={() => removeItemFromCart(item.item.id)}
 								/>,
