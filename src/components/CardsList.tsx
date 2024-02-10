@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { itemsStore } from '../utils/store';
 import { Item } from '../utils/interfaces';
 import {
@@ -34,28 +34,23 @@ const CardStyles: CardProps['styles'] = {
 };
 
 const CardsList: React.FC = observer(() => {
-	const {
-		currentItems,
-		setCurrentItemId,
-		setItems,
-		setCurrentCategory,
-		isItemsLoaded,
-		setIsItemsLoaded,
-	} = itemsStore;
+	const { currentItems, setCurrentItemId, setItems, setCurrentCategory } =
+		itemsStore;
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	useEffect(() => {
 		getItems().then((data: Item[]) => {
 			setItems(data);
-			setIsItemsLoaded(true);
+			setIsLoaded(true);
 
 			const categoryFromStorage = localStorage.getItem('category') || '';
 			setCurrentCategory(categoryFromStorage);
 		});
 
 		return () => {
-			setIsItemsLoaded(false);
+			setIsLoaded(false);
 		};
-	}, [setItems, setCurrentCategory, setIsItemsLoaded]);
+	}, [setItems, setCurrentCategory, setIsLoaded]);
 
 	const navigate = useNavigate();
 
@@ -69,7 +64,7 @@ const CardsList: React.FC = observer(() => {
 
 	return (
 		<>
-			{isItemsLoaded ? (
+			{isLoaded ? (
 				<Flex
 					wrap='wrap'
 					justify='space-around'

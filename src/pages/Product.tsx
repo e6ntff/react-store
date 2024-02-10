@@ -9,23 +9,24 @@ import { Item } from '../utils/interfaces';
 import getItem from '../utils/getItem';
 
 const Product: React.FC = observer(() => {
-	const { currentItemId, items, isItemLoaded, setIsItemLoaded } = itemsStore;
+	const { currentItemId, items } = itemsStore;
 	const [currentItem, setCurrentItem] = useState<Item>(items[0]);
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	useEffect(() => {
 		getItem(currentItemId).then((data: Item) => {
 			setCurrentItem(data);
-			setIsItemLoaded(true);
+			setIsLoaded(true);
 		});
 		return () => {
-			setIsItemLoaded(false);
+			setIsLoaded(false);
 		};
-	}, [setCurrentItem, setIsItemLoaded, currentItemId]);
+	}, [setCurrentItem, setIsLoaded, currentItemId]);
 
 	return (
 		<>
 			<CatalogButton />
-			{isItemLoaded ? (
+			{isLoaded ? (
 				<>
 					<Row gutter={[48, 48]}>
 						<Col span={12}>

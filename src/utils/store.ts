@@ -7,16 +7,6 @@ class ItemsStore {
 	currentItems: Item[] = [];
 	currentItemId: number = 0;
 	currentCategory: Category = categories[0];
-	isItemsLoaded: boolean = false;
-	isItemLoaded: boolean = false;
-
-	setIsItemsLoaded = (value: boolean) => {
-		this.isItemsLoaded = value;
-	};
-
-	setIsItemLoaded = (value: boolean) => {
-		this.isItemLoaded = value;
-	};
 
 	setItems = (items: Item[]) => {
 		this.items = items;
